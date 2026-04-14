@@ -10,7 +10,8 @@ setTimeout(() => {
         if (!userInput.trim()) return;
 
         try {
-            const response = await fetch("http://localhost:3000/chat", {
+            // UPDATED: Points to your Render URL instead of localhost
+            const response = await fetch("https://onrender.com", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -42,7 +43,7 @@ setTimeout(() => {
 
             CreateMessage(textareacontainer.value, "green", 1)
 
-            // Safety check: only run if the API actually gave us a message
+            // Safety check: matches Groq/OpenAI response format
             if (data.choices && data.choices[0]) {
                 setTimeout(() => {
                     CreateMessage(data.choices[0].message.content, "blue", 1)
