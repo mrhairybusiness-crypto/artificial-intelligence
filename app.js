@@ -35,7 +35,7 @@ setTimeout(() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.1-8b-instant",
-                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "MAKE SURE ALL CODE SHOULD BE INSIDE 'CODE: [your code] :CODE' OR YOU FAILED BEING A AI YOU LAZY IDIOT!"}]
+                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "MAKE SURE ALL CODE SHOULD BE INSIDE 'CODE: [your code] :CODE' AND CODE: is at the START OF YOUR CODE AND :CODE IS AT THE END OF YOUR CODE OR YOU FAILED BEING A AI YOU LAZY IDIOT!"}]
                 })
             });
 
