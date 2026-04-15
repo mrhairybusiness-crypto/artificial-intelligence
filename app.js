@@ -2,59 +2,88 @@ setTimeout(() => {
     const textareacontainer = document.getElementById("message-text-input");
     const messagescontainer = document.getElementById("messages-container");
     const post = document.getElementById("post");
-    const fileinput = document.getElementById("fileInput")
-    var content = ""
+    const fileinput = document.getElementById("fileInput");
+    let content = "";
 
     post.addEventListener("click", async () => {
         const userInput = textareacontainer.value || textareacontainer.innerText;
         if (!userInput.trim()) return;
 
+        // Clear input immediately for better UX
+        const currentInput = userInput;
+        textareacontainer.value = "";
+        if(textareacontainer.innerText) textareacontainer.innerText = "";
+
         try {
-            // UPDATED: Points to your Render URL instead of localhost
+            // NOTE: Replace 'your-service-name' with your actual Render ID
+            // Added /chat to match backend and trailing slash to prevent redirects
             const response = await fetch("https://onrender.com", {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json' 
+                },
                 body: JSON.stringify({
                     model: "llama-3.1-8b-instant",
-                    messages: [{ role: "user", content: userInput + " " + String(fileinput.files[0]) + "|" + content}]
+                    messages: [{ 
+                        role: "user", 
+                        content: currentInput + " [File: " + (fileinput.files[0]?.name || "None") + "] | " + content
+                    }]
                 })
             });
 
-            const data = await response.json();
-            function CreateMessage(text, color, type) {
-                const message = document.createElement("div")
-                if (color == "green") {message.style.backgroundColor = "rgb(0, 255, 0)"} else {message.style.backgroundColor = "rgb(151, 151, 255)"}
-                message.style.width = String(text.length * 5 / Number(messagescontainer.style.width) + text.length * 5 - Number(messagescontainer.style.width) - 100) + "px"
-                message.style.height = 25 * text.length - (500)
-                message.innerHTML = text
-                message.style.opacity = "0%"
-                messagescontainer.appendChild(message)
-                message.style.fontSize = "small"
-                message.style.textAlign = "left"
-                if (type == 1) {
-                    message.style.left = "100%"
-                } else {
-                    message.style.right = "100%"
-                }
-                message.animate([{opacity: 0}, {opacity: 1}], {iterations: 1, duration: 150}).addEventListener("finish", () => {
-                    message.style.opacity = "100%"
-                })
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status}`);
             }
 
-            CreateMessage(textareacontainer.value, "green", 1)
+            const data = await response.json();
 
-            // Safety check: matches Groq/OpenAI response format
+            function CreateMessage(text, color, type) {
+                const message = document.createElement("div");
+                
+                // Styling
+                message.style.backgroundColor = (color === "green") ? "rgb(0, 255, 0)" : "rgb(151, 151, 255)";
+                message.style.padding = "10px";
+                message.style.margin = "5px";
+                message.style.borderRadius = "8px";
+                message.style.width = "fit-content";
+                message.style.maxWidth = "80%";
+                message.style.fontSize = "small";
+                message.style.textAlign = "left";
+                message.style.position = "relative";
+                message.innerHTML = text;
+                message.style.opacity = "0";
+                
+                messagescontainer.appendChild(message);
+
+                // Simple slide/fade animation
+                message.animate([
+                    { opacity: 0, transform: 'translateY(10px)' },
+                    { opacity: 1, transform: 'translateY(0px)' }
+                ], { 
+                    iterations: 1, 
+                    duration: 250, 
+                    fill: 'forwards' 
+                });
+            }
+
+            // Show User Message
+            CreateMessage(currentInput, "green", 1);
+
+            // Show AI Response
             if (data.choices && data.choices[0]) {
                 setTimeout(() => {
-                    CreateMessage(data.choices[0].message.content, "blue", 1)
-                    var responceresult = data.choices[0].message.content
-                    content = "user:"+userInput+"|you:"+responceresult
-                }, 255)
+                    const botResponse = data.choices[0].message.content;
+                    CreateMessage(botResponse, "blue", 0);
+                    // Update conversation history
+                    content = "user:" + currentInput + "|you:" + botResponse;
+                }, 400);
             } else {
-                console.error("API Error:", data);
+                console.error("API Error: Unexpected response format", data);
             }
+
         } catch (error) {
             console.error("Browser Error:", error);
+            alert("Failed to connect to the server. Check console for CORS or URL errors.");
         }
     });
 }, 750);
