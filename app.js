@@ -11,8 +11,11 @@ setTimeout(() => {
         message.style.margin = "10px";
         message.style.borderRadius = "8px";
         message.style.width = "fit-content";
+        message.style.opacity = "0%"
         message.style.maxWidth = "80%";
         if (type === 1) message.style.marginLeft = "auto";
+        message.style.transition = "opacity 250ms ease-in-out"
+        message.style.opacity = "100%"
         message.innerHTML = text;
         messagescontainer.appendChild(message);
         messagescontainer.scrollTop = messagescontainer.scrollHeight;
