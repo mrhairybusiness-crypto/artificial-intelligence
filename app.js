@@ -35,7 +35,7 @@ setTimeout(() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.1-8b-instant",
-                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "Please Insure that every time you type code,use CODE: before your code and :CODE after your code."}]
+                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "do not try put any code snippets outside brackets."}]
                 })
             });
 
@@ -46,7 +46,7 @@ setTimeout(() => {
                 const aiResult = data.choices[0].message.content;
 
                 // 1. Remove the quotes
-                var regex = /Code:(.+?):Code/g; 
+                var regex = /Code{(.+?)}/g; 
                 
                 // 2. Spread the iterator into an array to use .map()
                 var findings = [...aiResult.matchAll(regex)]; 
