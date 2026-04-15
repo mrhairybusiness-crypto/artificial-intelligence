@@ -46,7 +46,7 @@ setTimeout(() => {
                 const aiResult = data.choices[0].message.content;
 
                 // 1. Remove the quotes
-                var regex = /{(.+?)}/g; 
+                var regex = /Code: (.+?) :Code/g; 
                 
                 // 2. Spread the iterator into an array to use .map()
                 var findings = [...aiResult.matchAll(regex)]; 
@@ -57,7 +57,7 @@ setTimeout(() => {
                     CreateMessage(aiResult, "blue", 0, 0);
                 } else {
                     var msg = CreateMessage(aiResult, "blue", 0, 1);
-                    for (valfourfive in map) {
+                    for (vs in map) {
                         const y = document.createElement("div")
                         y.style.width = "fit-content"
                         y.style.maxWidth = "80%"
@@ -67,7 +67,7 @@ setTimeout(() => {
                         y.style.fontFamily = "monospace"
                         y.style.color = "rgb(255, 255, 255)"
                         y.style.padding = "10px"
-                        y.innerHTML = map.at(valfourfive)
+                        y.innerHTML = map[vs]
                         y.style.textAlign = "top"
                         y.style.boxShadow = "0px 0px 0px rgb(255, 255, 255)"
                         y.style.transition = "boxShadow 150ms ease-in-out"
