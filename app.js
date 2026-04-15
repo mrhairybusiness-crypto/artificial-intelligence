@@ -36,14 +36,18 @@ setTimeout(() => {
             });
 
             const data = await response.json();
-            if (data.choices && data.choices[0]) {
+            
+            // FIXED: Standard OpenAI/Groq response format is choices[0].message.content
+            if (data.choices && data.choices[0] && data.choices[0].message) {
                 const aiResult = data.choices[0].message.content;
                 CreateMessage(aiResult, "blue", 0);
                 content = "user:" + userInput + "|you:" + aiResult;
+            } else {
+                console.error("API Error:", data);
+                CreateMessage("Error: " + (data.error?.message || "Unknown error"), "red", 0);
             }
         } catch (error) {
             console.error("Fetch Error:", error);
         }
     });
 }, 750);
-
