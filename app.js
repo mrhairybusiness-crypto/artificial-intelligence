@@ -46,7 +46,7 @@ setTimeout(() => {
                 const aiResult = data.choices[0].message.content;
 
                 // 1. Remove the quotes
-                var regex = /Code: (.+?) :Code/g; 
+                var regex = /CODE: (.+?) :CODE/g; 
                 
                 // 2. Spread the iterator into an array to use .map()
                 var findings = [...aiResult.matchAll(regex)]; 
