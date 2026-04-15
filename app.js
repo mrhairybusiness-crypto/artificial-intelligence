@@ -35,7 +35,7 @@ setTimeout(() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.1-8b-instant",
-                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "do not try put any code snippets outside brackets."}]
+                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "every snippet of code should be inside Code: [your code] :Code."}]
                 })
             });
 
