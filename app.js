@@ -35,7 +35,7 @@ setTimeout(() => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "llama-3.1-8b-instant",
-                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "every snippet of code should be inside Code: [your code] :Code."}]
+                    messages: [{ role: "user", content: userInput + "|" + content + "|" + "if you give the user code, make sure it is inside the text Code: [type the code here.] :Code"}]
                 })
             });
 
