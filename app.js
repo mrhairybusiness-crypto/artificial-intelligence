@@ -56,26 +56,23 @@ setTimeout(() => {
                 if (map.length === 0) { 
                     CreateMessage(aiResult, "blue", 0, 0);
                 } else {
-                    var msg = CreateMessage(aiResult, "blue", 0, 1);
-                    for (vs in map) {
-                        const y = document.createElement("div")
-                        y.style.width = "fit-content"
-                        y.style.maxWidth = "80%"
-                        y.style.height = "fit-content"
-                        y.style.backgroundColor = "gray"
-                        y.style.borderRadius = "5px"
-                        y.style.fontFamily = "monospace"
-                        y.style.color = "rgb(255, 255, 255)"
-                        y.style.padding = "10px"
-                        y.innerHTML = map[vs]
-                        y.style.textAlign = "top"
-                        y.style.boxShadow = "0px 0px 0px rgb(255, 255, 255)"
-                        y.style.transition = "boxShadow 150ms ease-in-out"
-                        y.addEventListener("mouseenter", () => {
-                            y.style.boxShadow = "0px 0px 10px rgb(255, 255, 255)"
-                        })
-                        msg.appendChild(y)
-                    }
+                    const y = document.createElement("div")
+                    y.style.width = "fit-content"
+                    y.style.maxWidth = "80%"
+                    y.style.height = "fit-content"
+                    y.style.backgroundColor = "gray"
+                    y.style.borderRadius = "5px"
+                    y.style.fontFamily = "monospace"
+                    y.style.color = "rgb(255, 255, 255)"
+                    y.style.padding = "10px"
+                    y.innerHTML = map[0]
+                    y.style.textAlign = "top"
+                    y.style.boxShadow = "0px 0px 0px rgb(255, 255, 255)"
+                    y.style.transition = "boxShadow 150ms ease-in-out"
+                    y.addEventListener("mouseenter", () => {
+                        y.style.boxShadow = "0px 0px 10px rgb(255, 255, 255)"
+                    })
+                    msg.appendChild(y)
                 }                
                 content = "user:" + userInput + "|you:" + aiResult;
             } else {
